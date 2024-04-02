@@ -48,12 +48,14 @@ export const ProblemList: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-slate-900 flex justify-between flex-col items-center   container mx-auto px-4 py-8">
+    <div className="bg-slate-900 flex justify-between flex-col items-center   container mx-auto px-4 py-8 border border-white border-solid rounded-2xl w-7/12 ">
       <h2 className="text-2xl text-white font-bold mb-4">LeetCode Problems</h2>
-      <div className="flex flex-col  w-4/6 ">
-        {problems.map((problem) => (
-          <ProblemBox key={problem.title} problem={problem} />
-        ))}
+      <div className='bg-slate-300 border rounded-2xl '>
+        <div className=" flex flex-col m-10 p-4  ">
+          {problems.map((problem) => (
+            <ProblemBox key={problem.title} problem={problem} />
+          ))}
+        </div>    
       </div>
     </div>
   );
