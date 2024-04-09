@@ -8,6 +8,7 @@ import Navbar from './components/Navbar'
 import { Landing } from './components/Landing';
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import { ProblemList } from './components/ProblemList';
+import { Problem } from './components/Problem';
 
 
 function App() {
@@ -19,13 +20,17 @@ function App() {
         setUser({
           isLoading:false,
           user: {
-            email : user.email 
-          }
+            email : user.email ,
+          },
+
+          username:user.email.substring(0,7)
+          
         })
         console.log(user.email)
       }else{
         setUser({
           isLoading: false ,
+          username:""        
         })
         console.log('not logged in')
       }
@@ -42,6 +47,8 @@ function App() {
     return <Signin/>
   }
 
+  const a = 2 ;
+
   return(
     <div >
       <BrowserRouter>
@@ -51,7 +58,8 @@ function App() {
             <Route path='/addProblem' element={<AddProblem/>}/>
             <Route path='/problemList' element={<ProblemList/>}/>
             <Route path='/discuss' element={<AddProblem/>}/>
-            </Routes>
+            <Route path='/problem/:id' element={<Problem/>}/>
+          </Routes>
       </BrowserRouter>
     </div>
   )

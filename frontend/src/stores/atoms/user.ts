@@ -5,9 +5,11 @@ export const userAtom = atom<{
     user?:{
         email:string
     }
+    username : string 
 }>({
     key:"userAtom",
     default:{
-        isLoading:true 
+        isLoading:true, 
+        username : ""
     }
 })
