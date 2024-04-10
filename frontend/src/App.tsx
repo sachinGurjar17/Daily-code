@@ -9,11 +9,26 @@ import { Landing } from './components/Landing';
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import { ProblemList } from './components/ProblemList';
 import { Problem } from './components/Problem';
+import { getDatabase , onValue, set ,  ref } from 'firebase/database';
+import { Admin } from './components/Admin';
 
 
 function App() {
 
   const [user , setUser] = useRecoilState(userAtom);
+
+  useEffect(()=>{
+        const db = getDatabase();
+
+        async function writeUserData( user : Object | undefined ){
+          const reference = ref(db ,'/users');
+          set(reference,user);
+      } 
+
+
+       writeUserData(user.user);
+  })
+  
   useEffect(()=>{
     onAuthStateChanged(auth, (user)=>{
       if(user && user.email){
@@ -21,16 +36,21 @@ function App() {
           isLoading:false,
           user: {
             email : user.email ,
-          },
-
-          username:user.email.substring(0,7)
+            username : user.email.substring(0,7),
+            rank : 100,
+            isAdmin : false ,
+            totalSolvedQuestion : 0,
+            easyQuestions : 0 ,
+            mediumQuestions : 0 ,
+            difficultQuestions : 0,
+            lastSubmission : 0 ,
+          }
           
         })
         console.log(user.email)
       }else{
         setUser({
-          isLoading: false ,
-          username:""        
+          isLoading: false       
         })
         console.log('not logged in')
       }
@@ -47,8 +67,6 @@ function App() {
     return <Signin/>
   }
 
-  const a = 2 ;
-
   return(
     <div >
       <BrowserRouter>
@@ -57,8 +75,8 @@ function App() {
             <Route path='/' element={<Landing/>}/>
             <Route path='/addProblem' element={<AddProblem/>}/>
             <Route path='/problemList' element={<ProblemList/>}/>
-            <Route path='/discuss' element={<AddProblem/>}/>
             <Route path='/problem/:id' element={<Problem/>}/>
+            <Route path='/admin' element={<Admin/>}/>
           </Routes>
       </BrowserRouter>
     </div>
