@@ -8,7 +8,8 @@ export const AddProblem = ()=>{
         title : string ,
         description : string ,
         problemID : number,
-        testCases : Object ,
+        input : string ,
+        output : string ,
         initialCode : string
     }
       
@@ -18,7 +19,8 @@ export const AddProblem = ()=>{
         title : '',
         description: '',
         difficulty: '',
-        testCases : {},
+        input : '',
+        output : '' ,
         initialCode : ""
     })
 
@@ -38,17 +40,20 @@ export const AddProblem = ()=>{
 
         const db = getDatabase();
 
-        async function writeUserData(problemID : number , name :string , problemInfo:string , difficulty : string){
+        async function writeUserData(problemID : number , name :string , problemInfo:string , difficulty : string , input :  string  , output : string , initialCode : string){
             const reference = ref(db ,'problems/'+problemID);
             set(reference,{
                 problemID :problemID,
                 title : name,
                 description : problemInfo,
-                difficulty : difficulty 
+                difficulty : difficulty ,
+                input : input ,
+                output : output , 
+                initialCode : initialCode
             });
         } 
 
-        await writeUserData(formValues.problemID, formValues.title , formValues.description , formValues.difficulty);
+        await writeUserData(formValues.problemID, formValues.title , formValues.description , formValues.difficulty , formValues.input , formValues.output , formValues.initialCode);
 
         const problemListRef = ref(db,'problems/');
 
@@ -99,10 +104,10 @@ export const AddProblem = ()=>{
                         <label  className="block text-gray-700 font-bold mb-2">Initital Code</label>
                         <textarea
                         rows={10}
-                        value={formValues.description}
+                        value={formValues.initialCode}
                         onChange={handleChange}
-                        name="description"
-                        id="description"  className="border-black form-textarea w-full text-black p-2 " ></textarea>
+                        name="initialCode"
+                        id="initialCode"  className="border-black form-textarea w-full text-black p-2 " ></textarea>
                     </div>
                     
                     <div className="mb-4">
@@ -122,9 +127,21 @@ export const AddProblem = ()=>{
 
                     <div>
                         <h3 className="block text-gray-700 font-bold mb-2 ">add test Cases </h3>
-                        <TestCases/>
-                        <TestCases/>
-                        <TestCases/>
+                        <div className="my-3 p-2 flex flex-col  gap-3 ">
+                            Input- <input
+                            id="input"
+                            name= "input"
+                            value={formValues.input}
+                            onChange={handleChange}
+                            type="text" className="block text-gray-700 font-bold mb-2 p-2" />
+                            Output- <input
+                            id="output"
+                            name="output"
+                            value={formValues.output}
+                            type="text"
+                            className="block text-gray-700 font-bold mb-2 p-2"
+                            onChange={handleChange}/>
+                        </div>
                     </div>
 
                     <div>
@@ -133,36 +150,6 @@ export const AddProblem = ()=>{
                     </div>
                 </form>
             </div>
-        </div>
-    )
-}
-
-const TestCases = ()=>{
-    const [input , setInput] = useState("");
-    
-    let testcase : string [] = ["sacjo"] ;
-    const handleChange  = (event: React.ChangeEvent<HTMLInputElement>): string [] => {
-        // Access the input value
-        const { value } = event.target;
-    
-        // Update the state with the new value
-        setInput(value);
-
-       return [...testcase , input];
-        
-    };
-    
-    
-    return  (
-        <div className="my-3 p-2 flex gap-3 ">
-         Input- <input
-         value={input}
-         onChange={handleChange}
-         type="text" className="border-black p-2" />
-         Output- <input
-         type="text"
-         className="border-black p-2 "
-         onChange={handleChange}/>
         </div>
     )
 }

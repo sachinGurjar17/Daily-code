@@ -8,7 +8,7 @@ interface Problem {
   difficulty : string ,
   title : string ,
   description : string ,
-  problemID : number
+  problemID : number,
 }
 
 const ProblemBox: React.FC<{ problem: Problem }> = ({ problem }) => {

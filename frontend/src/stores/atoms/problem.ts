@@ -5,7 +5,8 @@ export const problemAtom = atom<{
     title : string ,
     description : string ,
     problemID : number,
-    testCases : Object ,
+    input : string ,
+    output : string ,
     tags :Object ,
     initialCode : string 
 }>({
@@ -15,7 +16,8 @@ export const problemAtom = atom<{
         title : "" ,
         description : "" ,
         problemID : 0,
-        testCases : {},
+        input : "",
+        output : "",
         tags : {} ,
         initialCode :""
     }
