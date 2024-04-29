@@ -39,7 +39,7 @@ export const Problem = ()=>{
                     </div>
                 </div>
             </div>
-            <CodeEditor initialCode={problem.initialCode} output={problem.output}/>
+            <CodeEditor />
            
          </div>
         </>

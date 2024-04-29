@@ -4,17 +4,17 @@ export const userAtom = atom<{
     user?:{
         email:string,
         username : string ,
-        rank : Number ,
+        rank : number ,
         isAdmin : Boolean ,
-        totalSolvedQuestion : Number,
-        easyQuestions : Number ,
-        mediumQuestions : Number ,
-        difficultQuestions : Number,
-        lastSubmission : Number ,
+        totalSolvedQuestion : number,
+        easyQuestions : number ,
+        mediumQuestions : number ,
+        hardQuestions : number,
+        lastSubmission : number ,
     }
 }>({
     key:"userAtom",
     default:{
-        isLoading:true, 
+        isLoading:true,        
     }
 })

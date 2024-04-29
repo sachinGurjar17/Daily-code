@@ -1,17 +1,39 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useEffect } from 'react';
+import { problemAtom  } from '../stores/atoms/problem';
+import { userAtom } from '../stores/atoms/user';
+import { useRecoilState , useRecoilValue } from 'recoil';
+import { useParams } from 'react-router-dom';
+import { getDatabase,onValue , ref } from 'firebase/database';
 
-interface CodeEditorProps {
-  initialCode: string, 
-  output :string 
-}
 
-const CodeEditor : React.FC<CodeEditorProps> = (props)=> {
+const CodeEditor = ()=> {
+
+  const [problem , setproblem]  = useRecoilState(problemAtom); 
 
   const [codeOutput , setCodeOutput] =  useState("");
 
-  const [updatedCode, setUpdatedCode] = useState(props.initialCode+"");
+  const {id} = useParams();
 
+  const [updatedCode, setUpdatedCode] = useState(problem.initialCode+" ");
+  
+  useEffect(() => {
+    const fetchData = async () => {
+        const db = getDatabase();
+        const problemListRef = ref(db, `/problems/${id}`);
+        onValue(problemListRef, (snapshot) => {           
+            const data = snapshot.val(); 
+            console.log(data);                    
+            setproblem(data);  
+            setUpdatedCode((prevCode) => data.initialCode);
+        });
+    };
+    fetchData();
+}, [id]);
+
+
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>)=>{
     setUpdatedCode(e.target.value);
   }
@@ -22,7 +44,8 @@ const CodeEditor : React.FC<CodeEditorProps> = (props)=> {
       url: 'https://judge0-ce.p.rapidapi.com/submissions',
       params: {
         base64_encoded: 'false',
-
+        field:'*',
+        wait : "true"
       },
     
       headers: {
@@ -31,7 +54,7 @@ const CodeEditor : React.FC<CodeEditorProps> = (props)=> {
         'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com'
       },
       data:{
-        "source_code": updatedCode ,
+        "source_code": updatedCode,
         "language_id": 52
       },
     };
@@ -76,15 +99,8 @@ const CodeEditor : React.FC<CodeEditorProps> = (props)=> {
     }
   }
 
-
-  console.log(codeOutput);
-
-  if(codeOutput === props.output) console.log("sahi hai bhai");
-  
-  
-  
-
   return (
+    <>
     <div className="w-8/12 p-6 bg-gray-100 rounded-lg shadow">
       <textarea
         value={updatedCode}
@@ -100,10 +116,26 @@ const CodeEditor : React.FC<CodeEditorProps> = (props)=> {
           Run Code
         </button>
         <br />
-        {props.output === codeOutput  ? (<div className="w-[250px] h-10 bg-green-500 text-white px-4 py-2 rounded ">Accepted</div>)
+        {problem.output === codeOutput  ? (<div className="w-[250px] h-10 bg-green-500 text-white px-4 py-2 rounded ">Accepted</div>)
             :(<div className="w-[250px] h-10 bg-red-600 text-white px-4 py-2 rounded">Wrong Answer</div>)}
       </div>
     </div>
+
+    <div className='bg-blue-200 text-bold w-8/12 flex flex-col gap-10 m-10 p-5 border border-solid rounded-3xl border-red-400 '>
+      <div className='flex  gap-5 border-solid border rounded-3xl p-4 border-yellow-500'>
+        <h1 className='text-bold text-lg'>Input : </h1>
+        {problem.input}
+      </div>
+      <div className='flex  gap-5 border-solid border rounded-3xl p-4 border-yellow-500'>
+        <h1  className='text-bold text-lg'>Your Output : </h1>
+        {codeOutput}
+      </div>
+      <div className='flex  gap-5 border-solid border rounded-3xl p-4 border-yellow-500'>
+        <h1  className='text-bold text-lg'>Expected Output :</h1>
+        {problem.output}
+      </div>
+    </div>
+    </>
   );
 };
 

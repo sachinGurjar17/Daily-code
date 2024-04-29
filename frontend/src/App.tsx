@@ -42,7 +42,7 @@ function App() {
             totalSolvedQuestion : 0,
             easyQuestions : 0 ,
             mediumQuestions : 0 ,
-            difficultQuestions : 0,
+            hardQuestions : 0,
             lastSubmission : 0 ,
           }
           
@@ -50,7 +50,7 @@ function App() {
         console.log(user.email)
       }else{
         setUser({
-          isLoading: false       
+          isLoading : false
         })
         console.log('not logged in')
       }
