@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { problemAtom  } from '../stores/atoms/problem';
-import { userAtom } from '../stores/atoms/user';
-import { useRecoilState , useRecoilValue } from 'recoil';
+import { useRecoilState} from 'recoil';
 import { useParams } from 'react-router-dom';
-import { getDatabase,onValue , ref } from 'firebase/database';
+import { getDatabase,onValue , ref} from 'firebase/database';
 
 
 const CodeEditor = ()=> {
@@ -15,7 +14,7 @@ const CodeEditor = ()=> {
   const [codeOutput , setCodeOutput] =  useState("");
 
   const {id} = useParams();
-
+  
   const [updatedCode, setUpdatedCode] = useState(problem.initialCode+" ");
   
   useEffect(() => {
@@ -23,10 +22,9 @@ const CodeEditor = ()=> {
         const db = getDatabase();
         const problemListRef = ref(db, `/problems/${id}`);
         onValue(problemListRef, (snapshot) => {           
-            const data = snapshot.val(); 
-            console.log(data);                    
+            const data = snapshot.val();                  
             setproblem(data);  
-            setUpdatedCode((prevCode) => data.initialCode);
+            setUpdatedCode(() => data.initialCode);
         });
     };
     fetchData();
@@ -60,12 +58,11 @@ const CodeEditor = ()=> {
     };
 
    
-    var token ;
+    let token ;
 
     try {
       const response = await axios.request(options);
       token = response.data.token ;
-      console.log(response.data.token);
     } catch (error) {
       console.error(error);
     }
@@ -92,12 +89,12 @@ const CodeEditor = ()=> {
     
     try {
       const response = await axios.request(st);
-      console.log(response.data);
       setCodeOutput(response.data.stdout);
     } catch (error) {
       console.error(error);
     }
   }
+
 
   return (
     <>
@@ -121,7 +118,7 @@ const CodeEditor = ()=> {
       </div>
     </div>
 
-    <div className='bg-blue-200 text-bold w-8/12 flex flex-col gap-10 m-10 p-5 border border-solid rounded-3xl border-red-400 '>
+    {codeOutput != "" ?(<div className='bg-blue-200 text-bold w-8/12 flex flex-col gap-10 m-10 p-5 border border-solid rounded-3xl border-red-400 '>
       <div className='flex  gap-5 border-solid border rounded-3xl p-4 border-yellow-500'>
         <h1 className='text-bold text-lg'>Input : </h1>
         {problem.input}
@@ -134,9 +131,10 @@ const CodeEditor = ()=> {
         <h1  className='text-bold text-lg'>Expected Output :</h1>
         {problem.output}
       </div>
-    </div>
+    </div>):(<div className='bg-blue-200 text-bold w-8/12 flex flex-col gap-10 m-10 p-5 border border-solid rounded-3xl border-red-400 '> Loading Outut </div>)}
     </>
   );
 };
+
 
 export default CodeEditor;
