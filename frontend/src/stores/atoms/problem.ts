@@ -7,8 +7,11 @@ export const problemAtom = atom<{
     problemID : number,
     input : string ,
     output : string ,
-    tags :Object ,
-    initialCode : string 
+    tags :string[] ,
+    initialCode : string ,
+    contributedBy : string ,
+    lastSubmittedBy : string,
+    totalSubmissions:number
 }>({
     key:"problemAtom",
     default:{
@@ -18,7 +21,10 @@ export const problemAtom = atom<{
         problemID : 0,
         input : "",
         output : "",
-        tags : {} ,
-        initialCode :""
+        tags : [],
+        initialCode :"",
+        contributedBy:"",
+        lastSubmittedBy:"",
+        totalSubmissions:0
     }
 })

@@ -15,8 +15,6 @@ export const Signin = () => {
                 if (!credential) {
                     return;
                 }
-                const user = result.user;
-                console.log(user);
             }).catch(() => {
                 alert("erorr while signing in");
             });
