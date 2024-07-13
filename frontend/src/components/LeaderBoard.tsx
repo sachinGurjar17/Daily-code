@@ -69,11 +69,11 @@ export const Leaderboard: React.FC = () => {
                   {user.points}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-300 text-lg">
-                  {user.totalSolvedQuestion}
+                  {user.easyQuestions+user.hardQuestions+user.mediumQuestions}
                    <ol>
-                    <li className='text-sm text-green-400 font-thin'>easy{" "+user.easyQuestions}</li>
-                    <li className='text-sm font-thin text-yellow-400'>medium{" " +user.mediumQuestions}</li>
-                    <li className='text-sm font-thin text-red-600'>hard{" "+user.hardQuestions}</li>
+                    <li className='text-sm text-green-400 font-semibold'>easy{" "+user.easyQuestions}</li>
+                    <li className='text-sm font-semibold text-yellow-400'>medium{" " +user.mediumQuestions}</li>
+                    <li className='text-sm font-semibold text-red-600'>hard{" "+user.hardQuestions}</li>
                    </ol>
                 </td>
               </tr>

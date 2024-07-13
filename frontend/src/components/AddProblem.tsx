@@ -178,7 +178,7 @@ export const AddProblem = () => {
 
           <div>
             <div className="border flex flex-row flex-wrap gap-2  border-gray-300 rounded-lg w-full p-3 bg-white mb-2 ">
-            <h1>selected options :</h1>
+            <h1>Selected Tags :</h1>
                 {
                   formValues.tags.map((tag)=>(
                     <div className="text-white border rounded-md p-1 bg-slate-400 text-sm font-thin   border-blue-300">{tag+" "}</div>
@@ -188,7 +188,7 @@ export const AddProblem = () => {
                   name="tags"
                   id="tags"
                   className="border border-gray-300 rounded-lg w-full p-3 text-gray-700 focus:outline-none focus:border-indigo-500"
-                  value={formValues.tags.map.toString()}
+                  value={formValues.tags}
                   multiple
                   size={3}
                   onChange={(e)=>{
@@ -205,13 +205,13 @@ export const AddProblem = () => {
                     }
                 }}
                   
-                > sacjom
+                >
                     {tags.map((tag) => (
                       <option 
                         className="border border-blue-300 p-2 m-2 rounded-md w-full "
                         key={tag.toString()}
                         value={tag}>
-                        {formValues.tags.includes(tag) ? <div>{tag+"  ✅" }</div>: <div>{tag}</div>}
+                        {formValues.tags.includes(tag) ?tag+"  ✅" :tag}
                     </option>
                     ))}
                 </select>

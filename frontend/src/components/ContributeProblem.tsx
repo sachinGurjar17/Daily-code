@@ -1,5 +1,5 @@
 import { AddProblem } from "./AddProblem"
-export const Admin = ()=>{
+export const ContributeProblem = ()=>{
     return (
         <>
          <AddProblem/>

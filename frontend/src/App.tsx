@@ -10,9 +10,11 @@ import { Landing } from './components/Landing';
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import { ProblemList } from './components/ProblemList';
 import { Problem } from './components/Problem';
-import { Admin } from './components/Admin';
+import { ContributeProblem } from './components/ContributeProblem';
 import { Leaderboard } from './components/LeaderBoard';
 import { getDatabase, set , ref , get } from 'firebase/database';
+import { Submissions } from './components/Submissions';
+import DashBoard from './components/DashBoard';
 
 function App() {
   const [user, setUser] = useRecoilState(userAtom);
@@ -85,8 +87,10 @@ useEffect(() => {
           <Route path='/addProblem' element={<AddProblem />} />
           <Route path='/problemList' element={<ProblemList />} />
           <Route path='/problem/:id' element={<Problem />} />
-          <Route path='/admin' element={<Admin />} />
+          <Route path='/contributeProblem' element={<ContributeProblem />} />
           <Route path='/leaderboard' element={<Leaderboard/>}/>
+          <Route path='/submissions' element={<Submissions/>}/>
+          <Route path='/:username/'  element={<DashBoard/>}/>
         </Routes>
       </BrowserRouter>
     </div>
