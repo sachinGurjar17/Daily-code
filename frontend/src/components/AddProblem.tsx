@@ -178,12 +178,6 @@ export const AddProblem = () => {
 
           <div>
             <div className="border flex flex-row flex-wrap gap-2  border-gray-300 rounded-lg w-full p-3 bg-white mb-2 ">
-            <h1>Selected Tags :</h1>
-                {
-                  formValues.tags.map((tag)=>(
-                    <div className="text-white border rounded-md p-1 bg-slate-400 text-sm font-thin   border-blue-300">{tag+" "}</div>
-                  ))
-                }
                 <select 
                   name="tags"
                   id="tags"
@@ -203,8 +197,8 @@ export const AddProblem = () => {
                         tags: prevValues.tags.filter((tag)=> tag !== e.target.value),
                       }));
                     }
-                }}
-                  
+                  }}
+                  required
                 >
                     {tags.map((tag) => (
                       <option 

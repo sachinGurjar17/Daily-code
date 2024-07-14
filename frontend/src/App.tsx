@@ -20,7 +20,7 @@ function App() {
   const [user, setUser] = useRecoilState(userAtom);
   
 
-const fetchUserData = async (email: string) => {
+const fetchUserData = async (email: string , name:string) => {
   const db = getDatabase();
   const userRef = ref(db, `users/${email.replace('.', '_')}`); 
   const snapshot = await get(userRef);
@@ -33,7 +33,7 @@ const fetchUserData = async (email: string) => {
   } else {
     const newUser = {
       email,
-      username: email.substring(0, 7),
+      username: name,
       userId: 100,
       isAdmin: false,
       points: 0,
@@ -54,8 +54,8 @@ const fetchUserData = async (email: string) => {
 
 useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, (authUser: FirebaseUser | null) => {
-    if (authUser && authUser.email) {
-      fetchUserData(authUser.email);
+    if (authUser && authUser.email && authUser.displayName) {
+      fetchUserData(authUser.email , authUser.displayName);
       console.log("User logged in:", authUser.email);
     } else {
       setUser({

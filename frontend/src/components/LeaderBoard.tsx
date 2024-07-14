@@ -39,7 +39,7 @@ export const Leaderboard: React.FC = () => {
         <div className="bg-gradient-to-r from-indigo-500 to-purple-500 p-4 text-white text-center text-2xl font-semibold">
           Leaderboard
         </div>
-        <table className="min-w-full leading-normal">
+        <table className=" container min-w-full leading-normal">
           <thead>
             <tr className="bg-gray-200">
               <th className="px-5 py-3 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">
@@ -56,7 +56,7 @@ export const Leaderboard: React.FC = () => {
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody >
             {users.map((user, index) => (
               <tr key={user.email} className="hover:bg-gray-100">
                 <td className="px-5 py-5 border-b border-gray-300 text-lg">

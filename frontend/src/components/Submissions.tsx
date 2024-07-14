@@ -66,7 +66,7 @@ export const Submissions : React.FC = ()=>{
                                 </thead>
                                 <tbody className="text-gray-400 hover:text-gray-800">
                                 {submissions.map((submission, index) => (
-                                    <tr key={index} className="border-b border-gray-200 hover:bg-gray-50">
+                                    <tr key={index} className="border-b border-gray-200 ">
                                     <td className="py-4 px-6">{submission.user}</td>
                                     <td className="py-4 px-6">{submission.problemId}</td>
                                     <td className="py-4 px-6">{submission.problemTitle}</td>
