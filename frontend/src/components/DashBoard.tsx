@@ -1,9 +1,44 @@
 import { useRecoilValue } from 'recoil';
 import { userAtom } from '../stores/atoms/user';
+import { useState, useEffect} from 'react';
+import { getDatabase,ref,onValue } from 'firebase/database';
 
 const DashBoard = () => {
+  interface Submission{
+    user:string,
+    problemId:number,
+    problemTitle : string,
+    status:boolean,
+    time:string,
+    language:string,
+    points:number,
+    submittedCode:string,
+    executionTime:undefined,
+    memoryUsage:undefined
+}
 
   const user = useRecoilValue(userAtom);
+  const [submissions , setSubmissions] = useState<Submission[]>([]);
+
+useEffect(()=>{
+    const fetchData= ()=>{
+        try{
+            const db = getDatabase();
+            const submissionRef = ref(db,'submissions/')
+            onValue(submissionRef,(snapshot)=>{
+                const data = snapshot.val();
+                const submissionArray : Submission [] = data ? Object.values(data):[];
+                const userSubmissionArray = submissionArray.filter((submission)=>{
+                  return submission.user == user.user?.username
+                })
+                setSubmissions(userSubmissionArray);
+            })
+        }catch(err){
+            console.log("Error fetching data",Error);
+        }
+    }
+    fetchData();
+},[])
 
   return (
     <div className="min-h-screen bg-slate-600 text-white ">
@@ -48,15 +83,16 @@ const DashBoard = () => {
                     <p className="text-2xl">{user.user?.solvedQuestions.length}</p>
                 </div>
                 <div className="mt-4">
-                    <h3 className="text-xl font-bold mb-2">Solved Problems List</h3>
+                    <h3 className="text-xl font-bold mb-2">Last Submissions</h3>
                     <ul className="list-disc list-inside">
-                    {user.user?.solvedQuestions.map((questionId, index) => (
-                        <li key={index} className="text-lg">
-                        Problem ID: {questionId}
+                    {submissions.map((submission ) => (
+                        <li key={submission.problemId} className="text-lg">
+                            <span className="font-bold">{submission.problemTitle}</span> - {submission.status ? 'Accepted' : 'Failed'}
                         </li>
                     ))}
                     </ul>
                 </div>
+                
                 </div>
           
         </div>

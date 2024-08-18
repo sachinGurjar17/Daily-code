@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { useParams } from 'react-router-dom';
-import { getDatabase, onValue, ref, update , set , push } from 'firebase/database';
+import { getDatabase, onValue, ref, update , push } from 'firebase/database';
 import { Editor } from '@monaco-editor/react';
 import { problemAtom } from '../stores/atoms/problem';
 import { userAtom } from '../stores/atoms/user';
@@ -112,7 +112,7 @@ const CodeEditor = () => {
         problemId:problem.problemID,
         problemTitle : problem.title,
         status:flag,
-        time:serverOutput.time,
+        time:Date.now(),
         language:"c++",
         points:0,
         submittedCode:updatedCode,

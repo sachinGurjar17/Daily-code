@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { userAtom } from '../stores/atoms/user';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 const Navbar =  ()=>{
 
